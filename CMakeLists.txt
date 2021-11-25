@@ -19,7 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   nav_msgs
   velodyne_msgs
-  ndt_omp
+  #ndt_omp
   tf
   pcl_ros
 )
@@ -27,8 +27,8 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system filesystem thread date_time)
 
-set(PANGOLIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/build-pangolin")
-find_package(Pangolin REQUIRED)
+#set(PANGOLIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/build-pangolin")
+#find_package(Pangolin REQUIRED)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/Kontiki)
 
@@ -62,8 +62,8 @@ add_library(li_calib_lib
 )
 target_link_libraries(li_calib_lib ${thirdparty_libraries})
 
-add_executable(li_calib_gui
-        test/li_calib_gui.cpp
-        src/ui/calib_helper.cpp
-        src/ui/calib_ui.cpp)
-target_link_libraries(li_calib_gui li_calib_lib ${thirdparty_libraries})
+#add_executable(li_calib_gui
+#        test/li_calib_gui.cpp
+#        src/ui/calib_helper.cpp
+#        src/ui/calib_ui.cpp)
+#target_link_libraries(li_calib_gui li_calib_lib ${thirdparty_libraries})

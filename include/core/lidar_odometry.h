@@ -24,7 +24,7 @@
 #include <utils/vlp_common.h>
 #include <utils/eigen_utils.hpp>
 #include <utils/pcl_utils.h>
-#include <pclomp/ndt_omp.h>
+// #include <pclomp/ndt_omp.h>
 
 namespace licalib {
 
@@ -41,8 +41,8 @@ public:
 
   explicit LiDAROdometry(double ndtResolution = 0.5);
 
-  static pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr ndtInit(
-          double ndt_resolution);
+  //static pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr ndtInit(
+          //double ndt_resolution);
 
   void feedScan(double timestamp,
                 VPointCloud::Ptr cur_scan,
@@ -63,9 +63,9 @@ public:
     return map_cloud_;
   }
 
-  const pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr& getNDTPtr() const {
-    return ndt_omp_;
-  }
+  // const pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr& getNDTPtr() const {
+  //   return ndt_omp_;
+  // }
 
   const Eigen::aligned_vector<OdomData> &get_odom_data() const {
     return odom_data_;
@@ -96,7 +96,7 @@ private:
 
   VPointCloud::Ptr map_cloud_;
 
-  pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr ndt_omp_;
+  // pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr ndt_omp_;
 
   std::vector<size_t> key_frame_index_;
   Eigen::aligned_vector<OdomData> odom_data_;

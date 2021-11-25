@@ -47,65 +47,65 @@ void SurfelAssociation::clearSurfelMap() {
   spoints_all_.clear();
 }
 
-void SurfelAssociation::setSurfelMap(
-        const pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr& ndtPtr,
-        double timestamp) {
-  clearSurfelMap();
-  map_timestamp_ = timestamp;
+// void SurfelAssociation::setSurfelMap(
+//         const pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr& ndtPtr,
+//         double timestamp) {
+//   clearSurfelMap();
+//   map_timestamp_ = timestamp;
 
-  //mCellSize = ndtPtr->getTargetCells().getLeafSize()(0);
+//   //mCellSize = ndtPtr->getTargetCells().getLeafSize()(0);
 
-  // check each cell
-  Eigen::Vector3i counter(0,0,0);
-  for (const auto &v : ndtPtr->getTargetCells().getLeaves()) {
-    auto leaf = v.second;
+//   // check each cell
+//   Eigen::Vector3i counter(0,0,0);
+//   for (const auto &v : ndtPtr->getTargetCells().getLeaves()) {
+//     auto leaf = v.second;
 
-    if (leaf.nr_points < 10)
-      continue;
-    int plane_type = checkPlaneType(leaf.getEvals(), leaf.getEvecs(), p_lambda_);
-    if (plane_type < 0)
-      continue;
+//     if (leaf.nr_points < 10)
+//       continue;
+//     int plane_type = checkPlaneType(leaf.getEvals(), leaf.getEvecs(), p_lambda_);
+//     if (plane_type < 0)
+//       continue;
 
-    Eigen::Vector4d surfCoeff;
-    VPointCloud::Ptr cloud_inliers = VPointCloud::Ptr(new VPointCloud);
-    if (!fitPlane(leaf.pointList_.makeShared(), surfCoeff, cloud_inliers))
-      continue;
+//     Eigen::Vector4d surfCoeff;
+//     VPointCloud::Ptr cloud_inliers = VPointCloud::Ptr(new VPointCloud);
+//     if (!fitPlane(leaf.pointList_.makeShared(), surfCoeff, cloud_inliers))
+//       continue;
 
-    counter(plane_type) += 1;
-    SurfelPlane surfplane;
-    surfplane.cloud = leaf.pointList_;
-    surfplane.cloud_inlier = *cloud_inliers;
-    surfplane.p4 = surfCoeff;
-    surfplane.Pi = -surfCoeff(3) * surfCoeff.head<3>();
+//     counter(plane_type) += 1;
+//     SurfelPlane surfplane;
+//     surfplane.cloud = leaf.pointList_;
+//     surfplane.cloud_inlier = *cloud_inliers;
+//     surfplane.p4 = surfCoeff;
+//     surfplane.Pi = -surfCoeff(3) * surfCoeff.head<3>();
 
-    VPoint min, max;
-    pcl::getMinMax3D(surfplane.cloud, min, max);
-    surfplane.boxMin = Eigen::Vector3d(min.x, min.y, min.z);
-    surfplane.boxMax = Eigen::Vector3d(max.x, max.y, max.z);
+//     VPoint min, max;
+//     pcl::getMinMax3D(surfplane.cloud, min, max);
+//     surfplane.boxMin = Eigen::Vector3d(min.x, min.y, min.z);
+//     surfplane.boxMax = Eigen::Vector3d(max.x, max.y, max.z);
 
-    surfel_planes_.push_back(surfplane);
-  }
+//     surfel_planes_.push_back(surfplane);
+//   }
 
-  spoint_per_surfel_.resize(surfel_planes_.size());
+//   spoint_per_surfel_.resize(surfel_planes_.size());
 
-  std::cout << "Plane type  :" << counter.transpose()
-            << "; Plane number: " << surfel_planes_.size() << std::endl;
+//   std::cout << "Plane type  :" << counter.transpose()
+//             << "; Plane number: " << surfel_planes_.size() << std::endl;
 
-  surfels_map_.clear();
-  {
-    int idx = 0;
-    for (const auto &v : surfel_planes_) {
-      colorPointCloudT cloud_rgb;
-      pcl::copyPointCloud(v.cloud_inlier, cloud_rgb);
+//   surfels_map_.clear();
+//   {
+//     int idx = 0;
+//     for (const auto &v : surfel_planes_) {
+//       colorPointCloudT cloud_rgb;
+//       pcl::copyPointCloud(v.cloud_inlier, cloud_rgb);
 
-      size_t colorType = (idx++) % color_list_.size();
-      for (auto & p : cloud_rgb) {
-        p.rgba = color_list_[colorType];
-      }
-      surfels_map_ += cloud_rgb;
-    }
-  }
-}
+//       size_t colorType = (idx++) % color_list_.size();
+//       for (auto & p : cloud_rgb) {
+//         p.rgba = color_list_[colorType];
+//       }
+//       surfels_map_ += cloud_rgb;
+//     }
+//   }
+// }
 
 
 void SurfelAssociation::getAssociation(const VPointCloud::Ptr& scan_inM,

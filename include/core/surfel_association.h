@@ -21,7 +21,7 @@
 #ifndef SURFELASSOCIATION_HPP
 #define SURFELASSOCIATION_HPP
 
-#include <pclomp/ndt_omp.h>
+// #include <pclomp/ndt_omp.h>
 #include <utils/vlp_common.h>
 #include <boost/circular_buffer.hpp>
 #include <utils/eigen_utils.hpp>
@@ -57,8 +57,8 @@ public:
     initColorList();
   }
 
-  void setSurfelMap(const pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr& ndtPtr,
-                    double timestamp = 0);
+  // void setSurfelMap(const pclomp::NormalDistributionsTransform<VPoint, VPoint>::Ptr& ndtPtr,
+  //                   double timestamp = 0);
 
   void setPlaneLambda(double lambda) {
     p_lambda_ = lambda;
